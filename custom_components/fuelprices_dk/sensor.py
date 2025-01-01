@@ -99,6 +99,7 @@ class FuelPriceSensor(SensorEntity):
         attr["product_type"] = self._productKey
         attr["price_type"] = self._fuelCompany.getPriceType()
         attr["last_update"] = self._fuelCompany.getProductLastUpdate(self._productKey)
+        attr["icon_color"] = self._fuelCompany.getIconColor()
         attr[ATTR_ATTRIBUTION] = CREDITS
         return attr
 
