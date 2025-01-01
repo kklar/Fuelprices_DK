@@ -18,6 +18,7 @@ FUEL_COMPANIES = {
     "circlek": {
         "name": "Circle K",
         "url": "https://www.circlek.dk/priser",
+        "iconcolor": "#ee2224",
         "products": {
             OCTANE_95: {"name": "miles95."},
             OCTANE_95_PLUS: {"name": "miles+95."},
@@ -29,6 +30,7 @@ FUEL_COMPANIES = {
     "f24": {
         "name": "F24",
         "url": "https://www.f24.dk/-/api/PriceViewProduct/GetPriceViewProducts",
+        "iconcolor": "#002c58",
         "products": {
             OCTANE_95: {"name": "GoEasy 95 E10", "ProductCode": 22253},
             OCTANE_95_PLUS: {"name": "GoEasy 95 Extra E5", "ProductCode": 22603},
@@ -39,6 +41,7 @@ FUEL_COMPANIES = {
     "goon": {
         "name": "Go' on",
         "url": "https://goon.nu/priser/#Aktuellelistepriser",
+        "iconcolor": "#1a9432",
         "products": {
             OCTANE_95: {"name": "Blyfri 95", "ocr_crop": ["58", "232", "134", "46"]},
             DIESEL: {"name": "Transportdiesel", "ocr_crop": ["58", "289", "134", "46"]},
@@ -47,6 +50,7 @@ FUEL_COMPANIES = {
     "ingo": {
         "name": "ingo",
         "url": "https://www.ingo.dk/br%C3%A6ndstofpriser/aktuelle-br%C3%A6ndstofpriser",
+        "iconcolor": "#ff7000",
         "products": {
             OCTANE_95: {"name": "Benzin 95"},
             OCTANE_95_PLUS: {"name": "UPGRADE 95"},
@@ -56,6 +60,7 @@ FUEL_COMPANIES = {
     "oil": {
         "name": "OIL! tank & go",
         "url": "https://www.oil-tankstationer.dk/de-gaeldende-braendstofpriser/",
+        "iconcolor": "#691e79",
         "products": {
             OCTANE_95: {"name": "95 E10"},
             OCTANE_95_PLUS: {"name": "PREMIUM 98"},
@@ -65,6 +70,7 @@ FUEL_COMPANIES = {
     "ok": {
         "name": "OK",
         "url": "https://www.ok.dk/offentlig/produkter/braendstof/priser/vejledende-standerpriser",
+        "iconcolor": "#ff3c3c",
         "products": {
             OCTANE_95: {"name": "Blyfri 95"},
             OCTANE_100: {"name": "Oktan 100"},
@@ -74,6 +80,7 @@ FUEL_COMPANIES = {
     "q8": {
         "name": "Q8",
         "url": "https://www.q8.dk/-/api/PriceViewProduct/GetPriceViewProducts",
+        "iconcolor": "#20419a",
         "products": {
             OCTANE_95: {"name": "GoEasy 95 E10", "ProductCode": 22251},
             OCTANE_95_PLUS: {"name": "GoEasy 95 Extra E5", "ProductCode": 22601},
@@ -84,6 +91,7 @@ FUEL_COMPANIES = {
     "shell": {
         "name": "Shell",
         "url": "https://www.shell.dk/customer-service/priser-pa-benzin-og-diesel.html",
+        "iconcolor": "#da291c",
         "products": {
             OCTANE_95: {"name": "Shell FuelSave Blyfri 95"},
             OCTANE_100: {"name": "Shell V-Power"},
@@ -130,6 +138,7 @@ class fuelprices:
                     companyKey,
                     FUEL_COMPANIES[companyKey]["name"],
                     FUEL_COMPANIES[companyKey]["url"],
+                    FUEL_COMPANIES[companyKey]["iconcolor"],
                     FUEL_COMPANIES[companyKey]["products"],
                     fuelParser(),
                 )
@@ -166,6 +175,10 @@ class fuelprices:
         if self._companyExists(companyKey):
             return self._fuelCompanies[companyKey].getName()
 
+    def getCompanyIconColor(self, companyKey):
+        if self._companyExists(companyKey):
+            return self._fuelCompanies[companyKey].getIconColor()
+
     def getCompanyPrices(self, companyKey):
         if self._companyExists(companyKey):
             return self._fuelCompanies[companyKey].getPrices()
@@ -179,10 +192,11 @@ class fuelprices:
 
 
 class fuelCompany:
-    def __init__(self, key, name, url, products, parser):
+    def __init__(self, key, name, url, iconcolor, products, parser):
         self._key = key  # Key of the company in the dict
         self._name = name  # Name of the company
         self._url = url  # URL to site with prices
+        self._iconcolor = iconcolor #Added icon color
         self._products = products  # Dictionary with products and prices
         self._parser = parser  # Instance of the parser module
         self._priceType = DEFAULT_PRICE_TYPE  # Default type of prices
@@ -192,6 +206,9 @@ class fuelCompany:
 
     def getURL(self):
         return self._url
+
+    def getIconColor(self): 
+        return self._iconcolor
 
     # Refresh the companys prices
     def refreshPrices(self):
