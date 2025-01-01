@@ -63,7 +63,7 @@ FUEL_COMPANIES = {
         "iconcolor": "#691e79",
         "products": {
             OCTANE_95: {"name": "95 E10"},
-            OCTANE_95_PLUS: {"name": "PREMIUM 98"},
+            #OCTANE_95_PLUS: {"name": "PREMIUM 98"},
             DIESEL: {"name": "Diesel"},
         },
     },
