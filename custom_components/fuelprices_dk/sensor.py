@@ -88,7 +88,7 @@ class FuelPriceSensor(SensorEntity):
 
     @property
     def state(self) -> float:
-        return float(self._fuelCompany.getProductPrice(self._productKey))
+        return round(float(self._fuelCompany.getProductPrice(self._productKey)), 2)
 
     @property
     def extra_state_attributes(self):
@@ -105,7 +105,7 @@ class FuelPriceSensor(SensorEntity):
 
     @property
     def unique_id(self):
-        return self._companyName + " " + self._productKey
+        return "Fuelprice " + self._companyName + " " + self._productKey #Fuelprices added in front of entity id. 
 
     @property
     def device_class(self):
