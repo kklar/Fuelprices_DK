@@ -112,27 +112,40 @@ class fuelParser:
                         )
         return products
 
-    # OIL!
+    # OIL! 
     def oil(self, url, products):
         r = self._get_website(url)
         html = self._get_html_soup(r)
 
         rows = html.find_all("tr")
+               
         for productKey, productDict in products.items():
             found = False
             for row in rows:
                 if found:
                     continue
                 cells = row.find_all("td")
+                if len(cells) < 3:  # Ensure there are enough columns
+                    _LOGGER.warning("Row does not have enough cells: %s", cells)
+                    continue
+    
                 if cells:
+                    # Match product name
                     found = productDict["name"] == self._cleanProductName(cells[0].text)
                     if found:
-                        priceSegments = cells[2].findAll(
-                            "span", style=["text-align:right;", "text-align:left;"]
-                        )
+                        # Read the price directly from the <td>
+                        price = cells[2].text.strip()  # Get price text
+                        if not price:  # Handle empty cells
+                            _LOGGER.warning(
+                                "Price is missing for product %s, keeping last value.", 
+                                productKey
+                            )
+                            continue
+    
+                        # Update with the new price
                         products[productKey] = self._addPriceToProduct(
                             productDict,
-                            priceSegments[0].text + "." + priceSegments[1].text,
+                            price,
                         )
         return products
 
