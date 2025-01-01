@@ -79,7 +79,12 @@ class FuelPriceSensor(SensorEntity):
             self._productName = self._productName.replace(self._companyName, "").strip()
 
     @property
-    def name(self):
+    def unique_id(self) -> str:
+        return f"fuelprice_{self._companyName}_{self._productKey}"
+        #Fuelprices added in front of entity id. 
+        
+    @property
+    def name_ext(self) -> str:
         return self._companyName + " " + self._productName
 
     @property
@@ -102,11 +107,6 @@ class FuelPriceSensor(SensorEntity):
         attr["icon_color"] = self._fuelCompany.getIconColor()
         attr[ATTR_ATTRIBUTION] = CREDITS
         return attr
-
-    @property
-    def unique_id(self):
-        return "fuelprice_" + self._companyName + "_" + self._productKey 
-        #Fuelprices added in front of entity id. 
 
     @property
     def device_class(self):
