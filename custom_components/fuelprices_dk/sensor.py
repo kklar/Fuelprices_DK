@@ -82,7 +82,11 @@ class FuelPriceSensor(SensorEntity):
     def unique_id(self) -> str:
         return "fuelprices_{self._companyName}_{self._productKey}"
         #Fuelprices added in front of entity id. 
-        
+
+    @property
+    def name(self) -> str:
+        return self._companyName + " " + self._productName
+    
     @property
     def name_ext(self) -> str:
         return self._companyName + " " + self._productName
